@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     '& .css-1jrn2fe-MuiGrid-root': {
       height: '60%',
       width: '90%',
-      padding: '23px 0px 23px 130px',
       borderRadius: '8px',
       boxShadow: '10px',
     },
@@ -99,112 +98,121 @@ export default function Login() {
   return (
     <>
       {/* <Header /> */}
-      <div style={{ backgroundColor: 'whitesmoke', height: '100vh' }}>
-        <div className={styles.root}>
+      <div
+        style={{
+          backgroundColor: 'whitesmoke',
+          height: '100vh',
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+        }}
+      >
+        <div style={{ width: '90%', height: '80vh' }}>
           <ThemeProvider theme={theme}>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline />
-                <Grid
-                  item
-                  xs={false}
-                  sm={4}
-                  md={7}
+            <Grid container component="main" sx={{ height: '100%' }}>
+              <CssBaseline />
+              <Grid
+                item
+                xs={false}
+                sm={4}
+                md={7}
+                sx={{
+                  backgroundImage:
+                    'url(https://www.myclassboard.com/wp-content/uploads/2021/03/transport-management.png)',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+              <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Box
                   sx={{
-                    backgroundImage:
-                      'url(https://www.myclassboard.com/wp-content/uploads/2021/03/transport-management.png)',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    my: 8,
+                    mx: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
                   }}
-                />
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                  <Box
-                    sx={{
-                      my: 8,
-                      mx: 4,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Avatar sx={{ m: 1, bgcolor: '#4287f5' }}>
-                      <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                      Sign in
-                    </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                      <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                      />
-                      <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                      />
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        style={{ backgroundColor: '#4287f5', lineHeight: '30px', marginTop: '5px' }}
-                      >
-                        Sign In
-                      </Button>
-                      <Grid container>
-                        <Grid item xs>
-                          <Link href="#" variant="body2">
-                            Forgot password?
-                          </Link>
-                        </Grid>
-                        <Grid item>
-                          <Link href="/register" variant="body2">
-                            {"Don't have an account? Sign Up"}
-                          </Link>
-                        </Grid>
+                >
+                  <Typography component="h1" variant="h3" style={{ marginBottom: 55 }}>
+                    Easy Going
+                  </Typography>
+                  <Avatar sx={{ m: 1, bgcolor: '#4287f5' }}>
+                    <LockOutlinedIcon />
+                  </Avatar>
+                  <Typography component="h1" variant="h5">
+                    Sign in
+                  </Typography>
+                  <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      style={{ backgroundColor: '#4287f5', lineHeight: '30px', marginTop: '5px' }}
+                    >
+                      Sign In
+                    </Button>
+                    <Grid container>
+                      <Grid item xs>
+                        <Link href="#" variant="body2">
+                          Forgot password?
+                        </Link>
                       </Grid>
-                      <Copyright sx={{ mt: 5 }} />
-                    </Box>
+                      <Grid item>
+                        <Link href="/register" variant="body2">
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
+                    </Grid>
+                    <Copyright sx={{ mt: 5 }} />
                   </Box>
-                </Grid>
+                </Box>
               </Grid>
-            </div>
+            </Grid>
           </ThemeProvider>
-          <Snackbar
-            open={openSuccess}
-            autoHideDuration={3000}
-            onClose={handleCloseSuccess}
-            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-          >
-            <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
-              Login successful, redirecting...
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            open={openError}
-            autoHideDuration={3000}
-            onClose={handleCloseError}
-            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-          >
-            <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
-              {error}
-            </Alert>
-          </Snackbar>
         </div>
+        <Snackbar
+          open={openSuccess}
+          autoHideDuration={3000}
+          onClose={handleCloseSuccess}
+          anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+        >
+          <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+            Login successful, redirecting...
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openError}
+          autoHideDuration={3000}
+          onClose={handleCloseError}
+          anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+        >
+          <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );

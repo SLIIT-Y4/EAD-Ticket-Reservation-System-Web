@@ -9,7 +9,7 @@ function App() {
         {/* <UserContext.Provider value={{ userData, setUserData }}> */}
         <Routes>
           {/* <Route path="/" element={<Home />} /> */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
         </Routes>
         {/* </UserContext.Provider> */}
       </BrowserRouter>
