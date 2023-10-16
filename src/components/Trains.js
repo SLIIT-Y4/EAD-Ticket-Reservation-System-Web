@@ -3,16 +3,18 @@ import { Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import ModleStudentDelete from './AdminModalDelStudents';
-import ModalnewStudent from './AdminModalUpdStudent';
+import ModalDelete from './ModalDelete';
+import ModalForm from './ModalForm';
 import axios from 'axios';
 import BackOfficeSideNavBar from './BackOfficeSideNavBar';
 
 const Trains = () => {
-  const [modalStuUpdate, setmodalStuUpdate] = React.useState(false);
-  const [updateAdminStudentView, setupdateAdminStudentView] = useState(false);
-  const [modaldeleteStudent, setModaldeleteStudent] = useState(false);
-  const [deleteAdminStudentView, setdeleteAdminStudentView] = useState(false);
+  const [modalUpdate, setModalUpdate] = React.useState(false);
+  const [updateView, setUpdateView] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [deleteView, setDeleteView] = useState(false);
+  const [modalAdd, setModalAdd] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const [trains, setTrains] = useState([]);
 
@@ -28,7 +30,7 @@ const Trains = () => {
         });
     };
     getTrains();
-  }, []);
+  }, [isRefresh]);
 
   return (
     <div
@@ -44,7 +46,9 @@ const Trains = () => {
           <h1 style={{ color: 'Black' }}>Trains</h1>
         </center>
         <hr></hr>
-
+        <div style={{ display: 'flex', float: 'right', paddingRight: '20px' }}>
+          <Button onClick={() => setModalAdd(true)}>Add Train</Button>
+        </div>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -76,8 +80,8 @@ const Trains = () => {
                     <span>
                       <FaPencilAlt
                         onClick={() => {
-                          setmodalStuUpdate(true);
-                          setupdateAdminStudentView(train);
+                          setModalUpdate(true);
+                          setUpdateView(train);
                         }}
                         style={{ cursor: 'pointer', color: 'blue' }}
                         title="Update the student details"
@@ -92,8 +96,8 @@ const Trains = () => {
                     <span>
                       <FaTrash
                         onClick={() => {
-                          setModaldeleteStudent(true);
-                          setdeleteAdminStudentView(train);
+                          setModalDelete(true);
+                          setDeleteView(train);
                         }}
                         style={{ cursor: 'pointer', color: 'red' }}
                         title="Delete the student"
@@ -106,16 +110,32 @@ const Trains = () => {
           ))}
         </Table>
 
-        <ModalnewStudent
-          show={modalStuUpdate}
-          onHide={() => setmodalStuUpdate(false)}
-          profile={updateAdminStudentView}
+        <ModalForm
+          show={modalUpdate}
+          onHide={() => setModalUpdate(false)}
+          data={updateView}
+          mode={'Update'}
+          type={'Train'}
         />
 
-        <ModleStudentDelete
-          show={modaldeleteStudent}
-          onHide={() => setModaldeleteStudent(false)}
-          deleteAdminStudentView={deleteAdminStudentView}
+        <ModalForm
+          show={modalAdd}
+          onHide={() => setModalUpdate(false)}
+          data={updateView}
+          mode={'Create'}
+          type={'Train'}
+        />
+
+        <ModalDelete
+          show={modalDelete}
+          onHide={() => {
+            setModalDelete(false);
+            setIsRefresh(!isRefresh);
+          }}
+          data={deleteView}
+          type={'Train'}
+          modalDelete={modalDelete}
+          setModalDelete={setModalDelete}
         />
       </div>
     </div>
