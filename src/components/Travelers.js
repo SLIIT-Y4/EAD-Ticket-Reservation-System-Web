@@ -3,17 +3,19 @@ import { Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import ModleStudentDelete from './AdminModalDelStudents';
-import ModalnewStudent from './AdminModalUpdStudent';
 import axios from 'axios';
 import TravelAgentSideNavBar from './TravelAgentSideNavBar';
 import BackOfficeSideNavBar from './BackOfficeSideNavBar';
+import ModalDelete from './ModalDelete';
+import ModalForm from './ModalForm';
 
 const Travelers = () => {
-  const [modalStuUpdate, setmodalStuUpdate] = React.useState(false);
-  const [updateAdminStudentView, setupdateAdminStudentView] = useState(false);
-  const [modaldeleteStudent, setModaldeleteStudent] = useState(false);
-  const [deleteAdminStudentView, setdeleteAdminStudentView] = useState(false);
+  const [modalUpdate, setModalUpdate] = useState(false);
+  const [updateView, setUpdateView] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [deleteView, setDeleteView] = useState(false);
+  const [modalAdd, setModalAdd] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const [travelers, setTravelers] = useState([]);
 
@@ -31,12 +33,11 @@ const Travelers = () => {
         });
     };
     getTravelers();
-  }, []);
+  }, [isRefresh]);
 
   return (
     <div
       style={{
-        //backgroundImage: `url("https://img.wallpapersafari.com/desktop/1024/576/90/30/9oCdMj.jpg")`,
         height: '100vh',
         backgroundSize: 'cover',
       }}
@@ -48,7 +49,9 @@ const Travelers = () => {
           <h1 style={{ color: 'Black' }}>Travelers</h1>
         </center>
         <hr></hr>
-
+        <div style={{ display: 'flex', float: 'right', paddingRight: '20px' }}>
+          <Button onClick={() => setModalAdd(true)}>Add Traveler</Button>
+        </div>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -76,8 +79,8 @@ const Travelers = () => {
                       <span>
                         <FaPencilAlt
                           onClick={() => {
-                            setmodalStuUpdate(true);
-                            setupdateAdminStudentView(traveler);
+                            setModalUpdate(true);
+                            setUpdateView(traveler);
                           }}
                           style={{ cursor: 'pointer', color: 'blue' }}
                           title="Update the travelers details"
@@ -92,8 +95,8 @@ const Travelers = () => {
                       <span>
                         <FaTrash
                           onClick={() => {
-                            setModaldeleteStudent(true);
-                            setdeleteAdminStudentView(traveler);
+                            setModalDelete(true);
+                            setDeleteView(traveler);
                           }}
                           style={{ cursor: 'pointer', color: 'red' }}
                           title="Delete the traveler"
@@ -106,16 +109,34 @@ const Travelers = () => {
             ))}
         </Table>
 
-        <ModalnewStudent
-          show={modalStuUpdate}
-          onHide={() => setmodalStuUpdate(false)}
-          profile={updateAdminStudentView}
+        <ModalForm
+          show={modalUpdate}
+          onHide={() => setModalUpdate(false)}
+          data={updateView}
+          mode={'Update'}
+          type={'User'}
+          userRole="Traveler"
         />
 
-        <ModleStudentDelete
-          show={modaldeleteStudent}
-          onHide={() => setModaldeleteStudent(false)}
-          deleteAdminStudentView={deleteAdminStudentView}
+        <ModalForm
+          show={modalAdd}
+          onHide={() => setModalAdd(false)}
+          data={undefined}
+          mode={'Create'}
+          type={'User'}
+          userRole="Traveler"
+        />
+
+        <ModalDelete
+          show={modalDelete}
+          onHide={() => {
+            setModalDelete(false);
+            setIsRefresh(!isRefresh);
+          }}
+          data={deleteView}
+          type={'User'}
+          modalDelete={modalDelete}
+          setModalDelete={setModalDelete}
         />
       </div>
     </div>

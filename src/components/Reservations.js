@@ -3,8 +3,8 @@ import { Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import ModleStudentDelete from './AdminModalDelStudents';
-import ModalnewStudent from './AdminModalUpdStudent';
+import ModalDelete from './ModalDelete';
+import ModalForm from './ModalForm';
 import axios from 'axios';
 import BackOfficeSideNavBar from './BackOfficeSideNavBar';
 import TravelAgentSideNavBar from './TravelAgentSideNavBar';
@@ -12,10 +12,11 @@ import moment from 'moment/moment';
 import { useNavigate } from 'react-router-dom';
 
 const Reservations = () => {
-  const [modalStuUpdate, setmodalStuUpdate] = React.useState(false);
-  const [updateAdminStudentView, setupdateAdminStudentView] = useState(false);
-  const [modaldeleteStudent, setModaldeleteStudent] = useState(false);
-  const [deleteAdminStudentView, setdeleteAdminStudentView] = useState(false);
+  const [modalUpdate, setModalUpdate] = React.useState(false);
+  const [updateView, setUpdateView] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [deleteView, setDeleteView] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const [reservations, setReservations] = useState([]);
   const token = JSON.parse(sessionStorage.getItem('token'));
@@ -34,7 +35,7 @@ const Reservations = () => {
         });
     };
     getReservations();
-  }, []);
+  }, [isRefresh]);
 
   return (
     <div
@@ -91,8 +92,8 @@ const Reservations = () => {
                     <span>
                       <FaPencilAlt
                         onClick={() => {
-                          setmodalStuUpdate(true);
-                          setupdateAdminStudentView(reservation);
+                          setModalUpdate(true);
+                          setUpdateView(reservation);
                         }}
                         style={{ cursor: 'pointer', color: 'blue' }}
                         title="Update the student details"
@@ -107,8 +108,8 @@ const Reservations = () => {
                     <span>
                       <FaTrash
                         onClick={() => {
-                          setModaldeleteStudent(true);
-                          setdeleteAdminStudentView(reservation);
+                          setModalDelete(true);
+                          setDeleteView(reservation);
                         }}
                         style={{ cursor: 'pointer', color: 'red' }}
                         title="Delete the student"
@@ -121,16 +122,24 @@ const Reservations = () => {
           ))}
         </Table>
 
-        <ModalnewStudent
-          show={modalStuUpdate}
-          onHide={() => setmodalStuUpdate(false)}
-          profile={updateAdminStudentView}
+        <ModalForm
+          show={modalUpdate}
+          onHide={() => setModalUpdate(false)}
+          data={updateView}
+          mode={'Update'}
+          type={'Reservation'}
         />
 
-        <ModleStudentDelete
-          show={modaldeleteStudent}
-          onHide={() => setModaldeleteStudent(false)}
-          deleteAdminStudentView={deleteAdminStudentView}
+        <ModalDelete
+          show={modalDelete}
+          onHide={() => {
+            setModalDelete(false);
+            setIsRefresh(!isRefresh);
+          }}
+          data={deleteView}
+          type={'Reservation'}
+          modalDelete={modalDelete}
+          setModalDelete={setModalDelete}
         />
       </div>
     </div>

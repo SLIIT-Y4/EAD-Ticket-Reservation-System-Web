@@ -3,17 +3,19 @@ import { Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import ModleStudentDelete from './AdminModalDelStudents';
-import ModalnewStudent from './AdminModalUpdStudent';
+import ModalDelete from './ModalDelete';
+import ModalForm from './ModalForm';
 import axios from 'axios';
 import BackOfficeSideNavBar from './BackOfficeSideNavBar';
 import moment from 'moment/moment';
 
 const Schedules = () => {
-  const [modalStuUpdate, setmodalStuUpdate] = React.useState(false);
-  const [updateAdminStudentView, setupdateAdminStudentView] = useState(false);
-  const [modaldeleteStudent, setModaldeleteStudent] = useState(false);
-  const [deleteAdminStudentView, setdeleteAdminStudentView] = useState(false);
+  const [modalUpdate, setModalUpdate] = React.useState(false);
+  const [updateView, setUpdateView] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [deleteView, setDeleteView] = useState(false);
+  const [modalAdd, setModalAdd] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const [schedules, setSchedules] = useState([]);
 
@@ -29,7 +31,7 @@ const Schedules = () => {
         });
     };
     getSchedules();
-  }, []);
+  }, [isRefresh]);
 
   return (
     <div
@@ -46,7 +48,9 @@ const Schedules = () => {
           <h1 style={{ color: 'Black' }}>Schedules</h1>
         </center>
         <hr></hr>
-
+        <div style={{ display: 'flex', float: 'right', paddingRight: '20px' }}>
+          <Button onClick={() => setModalAdd(true)}>Add Schedule</Button>
+        </div>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -67,7 +71,7 @@ const Schedules = () => {
             <tbody key={schedule.scheduleId}>
               <tr>
                 <td>{schedule.trainId}</td>
-                <td>{moment(schedule.day).format('MMM Do YYYY')}</td>
+                <td>{schedule.day}</td>
                 <td>{schedule.startPoint}</td>
                 <td>{schedule.destination}</td>
                 <td>{schedule.depTime}</td>
@@ -82,8 +86,8 @@ const Schedules = () => {
                     <span>
                       <FaPencilAlt
                         onClick={() => {
-                          setmodalStuUpdate(true);
-                          setupdateAdminStudentView(schedule);
+                          setModalUpdate(true);
+                          setUpdateView(schedule);
                         }}
                         style={{ cursor: 'pointer', color: 'blue' }}
                         title="Update the student details"
@@ -98,8 +102,8 @@ const Schedules = () => {
                     <span>
                       <FaTrash
                         onClick={() => {
-                          setModaldeleteStudent(true);
-                          setdeleteAdminStudentView(schedule);
+                          setModalDelete(true);
+                          setDeleteView(schedule);
                         }}
                         style={{ cursor: 'pointer', color: 'red' }}
                         title="Delete the student"
@@ -112,16 +116,32 @@ const Schedules = () => {
           ))}
         </Table>
 
-        <ModalnewStudent
-          show={modalStuUpdate}
-          onHide={() => setmodalStuUpdate(false)}
-          profile={updateAdminStudentView}
+        <ModalForm
+          show={modalUpdate}
+          onHide={() => setModalUpdate(false)}
+          data={updateView}
+          mode={'Update'}
+          type={'Schedule'}
         />
 
-        <ModleStudentDelete
-          show={modaldeleteStudent}
-          onHide={() => setModaldeleteStudent(false)}
-          deleteAdminStudentView={deleteAdminStudentView}
+        <ModalForm
+          show={modalAdd}
+          onHide={() => setModalAdd(false)}
+          data={updateView}
+          mode={'Create'}
+          type={'Schedule'}
+        />
+
+        <ModalDelete
+          show={modalDelete}
+          onHide={() => {
+            setModalDelete(false);
+            setIsRefresh(!isRefresh);
+          }}
+          data={deleteView}
+          type={'Schedule'}
+          modalDelete={modalDelete}
+          setModalDelete={setModalDelete}
         />
       </div>
     </div>
