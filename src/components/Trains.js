@@ -18,17 +18,19 @@ const Trains = () => {
 
   const [trains, setTrains] = useState([]);
 
+  const getTrains = () => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}Trains`)
+      .then((res) => {
+        setTrains(res.data);
+      })
+      .catch((err) => {
+        alert(err.msg);
+      });
+  };
+
   useEffect(() => {
-    const getTrains = () => {
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}Trains`)
-        .then((res) => {
-          setTrains(res.data);
-        })
-        .catch((err) => {
-          alert(err.msg);
-        });
-    };
+    setModalDelete(false);
     getTrains();
   }, [isRefresh]);
 
@@ -134,8 +136,8 @@ const Trains = () => {
           }}
           data={deleteView}
           type={'Train'}
-          modalDelete={modalDelete}
-          setModalDelete={setModalDelete}
+          modalDelete={isRefresh}
+          setModalDelete={setIsRefresh}
         />
       </div>
     </div>

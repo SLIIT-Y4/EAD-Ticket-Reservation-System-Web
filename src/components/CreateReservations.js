@@ -4,12 +4,15 @@ import TravelAgentSideNavBar from './TravelAgentSideNavBar';
 import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import axios from 'axios';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import ModalForm from './ModalForm';
 
 const CreateReservations = () => {
   const token = JSON.parse(sessionStorage.getItem('token'));
   const [start, setStart] = useState(null);
   const [end, setEnd] = useState(null);
   const [response, setResponse] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
+  const [data, setData] = useState(null);
 
   const handleSubmit = async (event) => {
     event.stopPropagation();
@@ -103,14 +106,16 @@ const CreateReservations = () => {
                     <div>
                       &nbsp;&nbsp;&nbsp;
                       <span>
-                        <FaPencilAlt
+                        <Button
                           onClick={() => {
-                            // setModalUpdate(true);
-                            // setUpdateView(schedule);
+                            setModalShow(true);
+                            setData(schedule);
                           }}
-                          style={{ cursor: 'pointer', color: 'blue' }}
+                          style={{ cursor: 'pointer', color: 'White' }}
                           title="Update the student details"
-                        />
+                        >
+                          Reserve
+                        </Button>
                       </span>
                     </div>
                   </td>
@@ -120,6 +125,15 @@ const CreateReservations = () => {
           </Table>
         )}
       </div>
+
+      <ModalForm
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        data={undefined}
+        mode={'Create'}
+        type={'Reservation'}
+        scheduleId={data?.scheduleId}
+      />
     </div>
   );
 };

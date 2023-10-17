@@ -19,17 +19,18 @@ const Schedules = () => {
 
   const [schedules, setSchedules] = useState([]);
 
+  const getSchedules = () => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}Schedules`)
+      .then((res) => {
+        setSchedules(res.data);
+      })
+      .catch((err) => {
+        alert(err.msg);
+      });
+  };
   useEffect(() => {
-    const getSchedules = () => {
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}Schedules`)
-        .then((res) => {
-          setSchedules(res.data);
-        })
-        .catch((err) => {
-          alert(err.msg);
-        });
-    };
+    setModalDelete(false);
     getSchedules();
   }, [isRefresh]);
 
@@ -140,8 +141,8 @@ const Schedules = () => {
           }}
           data={deleteView}
           type={'Schedule'}
-          modalDelete={modalDelete}
-          setModalDelete={setModalDelete}
+          modalDelete={isRefresh}
+          setModalDelete={setIsRefresh}
         />
       </div>
     </div>

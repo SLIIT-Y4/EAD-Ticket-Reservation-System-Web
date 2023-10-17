@@ -22,18 +22,19 @@ const Reservations = () => {
   const token = JSON.parse(sessionStorage.getItem('token'));
 
   const navigate = useNavigate();
+  const getReservations = () => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}Reservations`)
+      .then((res) => {
+        setReservations(res.data);
+      })
+      .catch((err) => {
+        alert(err.msg);
+      });
+  };
 
   useEffect(() => {
-    const getReservations = () => {
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}Reservations`)
-        .then((res) => {
-          setReservations(res.data);
-        })
-        .catch((err) => {
-          alert(err.msg);
-        });
-    };
+    setModalDelete(false);
     getReservations();
   }, [isRefresh]);
 
@@ -134,12 +135,12 @@ const Reservations = () => {
           show={modalDelete}
           onHide={() => {
             setModalDelete(false);
-            setIsRefresh(!isRefresh);
+            getReservations();
           }}
           data={deleteView}
           type={'Reservation'}
-          modalDelete={modalDelete}
-          setModalDelete={setModalDelete}
+          modalDelete={isRefresh}
+          setModalDelete={setIsRefresh}
         />
       </div>
     </div>

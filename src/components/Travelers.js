@@ -21,17 +21,19 @@ const Travelers = () => {
 
   const token = JSON.parse(sessionStorage.getItem('token'));
 
+  const getTravelers = () => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}Users`)
+      .then((res) => {
+        setTravelers(res.data);
+      })
+      .catch((err) => {
+        alert(err.msg);
+      });
+  };
+
   useEffect(() => {
-    const getTravelers = () => {
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}Users`)
-        .then((res) => {
-          setTravelers(res.data);
-        })
-        .catch((err) => {
-          alert(err.msg);
-        });
-    };
+    setModalDelete(false);
     getTravelers();
   }, [isRefresh]);
 
@@ -135,8 +137,8 @@ const Travelers = () => {
           }}
           data={deleteView}
           type={'User'}
-          modalDelete={modalDelete}
-          setModalDelete={setModalDelete}
+          modalDelete={isRefresh}
+          setModalDelete={setIsRefresh}
         />
       </div>
     </div>
