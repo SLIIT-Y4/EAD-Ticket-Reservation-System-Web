@@ -14,20 +14,21 @@ const ScheduleForm = ({ data }) => {
   const [destination, setDestination] = useState(data ? data.destination : null);
   const [depTime, setDepTime] = useState(data ? data.depTime : null);
   const [arrivalTime, setArrivalTime] = useState(data ? data.arrivalTime : null);
-  const [stopStations, setStopStations] = useState(data ? data.stopStations : []);
+  const [stopStations, setStopStations] = useState(data ? data.stopStations : null);
   const [activeStatus, setActiveStatus] = useState(data ? data.activeStatus : true);
   const [trainName, setTrainName] = useState(data ? data.trainName : null);
 
   const handleSubmit = async (event) => {
-    const stopStationsArray = stopStations.split(',');
+    const stopStationsArray = !data && stopStations.split(',');
     const schedule = {
+      scheduleId: scheduleId,
       trainId: trainId,
       day: day,
       startPoint: startPoint,
       destination: destination,
       depTime: depTime,
       arrivalTime: arrivalTime,
-      stopStations: stopStationsArray,
+      stopStations: data ? stopStations : stopStationsArray,
       activeStatus: activeStatus,
       trainName: trainName,
     };

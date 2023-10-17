@@ -17,9 +17,9 @@ const ModalDelete = (props) => {
   };
   const deleteTrain = () => {
     axios
-      .delete(`http://localhost:5000/student/delete/${props.data._id}`)
+      .delete(`${process.env.REACT_APP_BASE_URL}Trains/${props.data.trainId}`)
       .then(() => {
-        swal('Deleted!', 'Successfully Deleted', 'success');
+        props.setModalDelete(!props.modalDelete);
       })
       .catch((err) => {
         alert(err);
@@ -29,6 +29,17 @@ const ModalDelete = (props) => {
   const deleteSchedule = () => {
     axios
       .delete(`${process.env.REACT_APP_BASE_URL}Schedules/${props.data.scheduleId}`)
+      .then(() => {
+        props.setModalDelete(!props.modalDelete);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  const deleteReservation = () => {
+    axios
+      .delete(`${process.env.REACT_APP_BASE_URL}Reservations/${props.data.bookingId}`)
       .then(() => {
         props.setModalDelete(!props.modalDelete);
       })
@@ -56,7 +67,15 @@ const ModalDelete = (props) => {
       </ModalBody>
       <ModalFooter>
         <Button
-          onClick={props.type === 'User' ? deleteUser : props.type === 'Schedule' ? deleteSchedule : deleteTrain}
+          onClick={
+            props.type === 'User'
+              ? deleteUser
+              : props.type === 'Schedule'
+              ? deleteSchedule
+              : props.type === 'Reservation'
+              ? deleteReservation
+              : deleteTrain
+          }
           variant="danger"
         >
           Delete

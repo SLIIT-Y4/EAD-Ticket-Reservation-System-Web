@@ -19,6 +19,7 @@ const UserForm = ({ data, role }) => {
 
   const handleSubmit = async (event) => {
     const user = {
+      id: id,
       name: name,
       nic: nic,
       email: email,

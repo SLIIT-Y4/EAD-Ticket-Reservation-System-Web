@@ -17,6 +17,7 @@ const TrainForm = ({ data }) => {
 
   const handleSubmit = async (event) => {
     const train = {
+      trainId: trainId,
       name: name,
       startPoint: startPoint,
       destination: destination,

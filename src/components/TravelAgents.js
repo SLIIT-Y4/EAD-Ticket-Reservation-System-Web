@@ -17,18 +17,19 @@ const TravelAgents = () => {
   const [isRefresh, setIsRefresh] = useState(false);
 
   const [travelAgents, setTravelAgents] = useState([]);
+  const getTravelAgents = () => {
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}Users`)
+      .then((res) => {
+        setTravelAgents(res.data);
+      })
+      .catch((err) => {
+        alert(err.msg);
+      });
+  };
 
   useEffect(() => {
-    const getTravelAgents = () => {
-      axios
-        .get(`${process.env.REACT_APP_BASE_URL}Users`)
-        .then((res) => {
-          setTravelAgents(res.data);
-        })
-        .catch((err) => {
-          alert(err.msg);
-        });
-    };
+    setModalDelete(false);
     getTravelAgents();
   }, [isRefresh]);
 
@@ -131,8 +132,8 @@ const TravelAgents = () => {
           }}
           data={deleteView}
           type={'User'}
-          modalDelete={modalDelete}
-          setModalDelete={setModalDelete}
+          modalDelete={isRefresh}
+          setModalDelete={setIsRefresh}
         />
       </div>
     </div>

@@ -30,7 +30,7 @@ const ModalForm = (props) => {
         ) : props.type === 'Schedule' ? (
           <ScheduleForm data={props.data} />
         ) : (
-          <ReservationForm data={props.data} />
+          <ReservationForm data={props.data} id={props.scheduleId} />
         )}
       </ModalBody>
       <Modal.Footer>
